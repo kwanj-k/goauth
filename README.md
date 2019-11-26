@@ -1,2 +1,2 @@
 # goauth
-A golang authentication service
+Go API

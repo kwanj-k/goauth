@@ -135,6 +135,7 @@ func (server *Server) DeleteUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	tokenID, err := auth.ExtractTokenID(r)
+	fmt.Println(tokenID != uint32(uid))
 	if err != nil {
 		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
 		return

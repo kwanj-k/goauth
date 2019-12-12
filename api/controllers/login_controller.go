@@ -41,7 +41,7 @@ func (server *Server) Login(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusOK, token)
 }
 
-// SignIn func to verify user details against the db
+// SignIn func to verify user details against the db and return token
 func (server *Server) SignIn(email, password string) (string, error) {
 
 	var err error

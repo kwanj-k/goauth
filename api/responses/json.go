@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-// JSON func to return a success json response
+// JSON func to return a json response
 func JSON(w http.ResponseWriter, statusCode int, data interface{}) {
 	w.WriteHeader(statusCode)
 	err := json.NewEncoder(w).Encode(data)

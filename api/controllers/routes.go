@@ -1,8 +1,12 @@
 package controllers
 
-import "github.com/kwanj-k/goauth/api/middlewares"
+import (
+	"github.com/kwanj-k/goauth/api/middlewares"
+)
 
 func (s *Server) initializeRoutes() {
+
+	s.Router.StrictSlash(false)
 
 	// Home Route
 	s.Router.HandleFunc("/", middlewares.SetMiddlewareJSON(s.Home)).Methods("GET")

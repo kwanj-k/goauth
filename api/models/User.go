@@ -22,6 +22,13 @@ type User struct {
 	UpdatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 }
 
+// UserReturn return struct
+type UserReturn struct {
+	ID uint32
+	Nickname string
+	Email string
+}
+
 // Hash generator
 func Hash(password string) ([]byte, error) {
 	return bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
@@ -110,27 +117,28 @@ func (u *User) SaveUser(db *gorm.DB) (*User, error) {
 }
 
 // FindAllUsers func to query all the users in the db
-func (u *User) FindAllUsers(db *gorm.DB) (*[]User, error) {
+func (u *User) FindAllUsers(db *gorm.DB) ([]UserReturn, error) {
 	var err error
-	users := []User{}
-	err = db.Debug().Model(&User{}).Limit(100).Find(&users).Error
+	var users []UserReturn
+	err = db.Debug().Table("users").Select("ID, Nickname, Email").Scan(&users).Error
 	if err != nil {
-		return &[]User{}, err
+		return users, err
 	}
-	return &users, err
+	return users, err
 }
 
 // FindUserByID func to get a particular by ID
-func (u *User) FindUserByID(db *gorm.DB, uid uint32) (*User, error) {
+func (u *User) FindUserByID(db *gorm.DB, uid uint32) (UserReturn, error) {
 	var err error
-	err = db.Debug().Model(User{}).Where("id = ?", uid).Take(&u).Error
+	var user UserReturn
+	err = db.Debug().Table("users").Select("ID, Nickname, Email").Scan(&user).Where("id = ?", uid).Take(&u).Error
 	if err != nil {
-		return &User{}, err
+		return user, err
 	}
 	if gorm.IsRecordNotFoundError(err) {
-		return &User{}, errors.New("User Not Found")
+		return user, errors.New("User Not Found")
 	}
-	return u, err
+	return user, err
 }
 
 // UpdateAUser func to update a given user by id

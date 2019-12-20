@@ -1,1 +1,1 @@
-web: goauth
+web: bin/goauth

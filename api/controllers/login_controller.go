@@ -38,10 +38,12 @@ func (server *Server) Login(w http.ResponseWriter, r *http.Request) {
 		responses.ERROR(w, http.StatusUnprocessableEntity, formattedError)
 		return
 	}
-	responses.JSON(w, http.StatusOK, token)
+	var resp = map[string]interface{}{"status": "Success!"}
+	resp["token"] = token
+	responses.JSON(w, http.StatusOK, resp)
 }
 
-// SignIn func to verify user details against the db
+// SignIn func to verify user details against the db and return token
 func (server *Server) SignIn(email, password string) (string, error) {
 
 	var err error

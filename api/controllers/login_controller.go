@@ -40,6 +40,7 @@ func (server *Server) Login(w http.ResponseWriter, r *http.Request) {
 	}
 	var resp = map[string]interface{}{"status": "Success!"}
 	resp["token"] = token
+	resp["email"] = user.Email
 	responses.JSON(w, http.StatusOK, resp)
 }
 

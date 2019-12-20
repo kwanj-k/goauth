@@ -51,11 +51,6 @@ func (server *Server) CreateUser(w http.ResponseWriter, r *http.Request) {
 func (server *Server) GetUsers(w http.ResponseWriter, r *http.Request) {
 
 	user := models.User{}
-	err := auth.TokenValid(r)
-	if err != nil {
-		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
-		return
-	}
 	users, err := user.FindAllUsers(server.DB)
 	if err != nil {
 		responses.ERROR(w, http.StatusInternalServerError, err)
@@ -66,11 +61,6 @@ func (server *Server) GetUsers(w http.ResponseWriter, r *http.Request) {
 
 // GetUser func to return a specific user
 func (server *Server) GetUser(w http.ResponseWriter, r *http.Request) {
-	err := auth.TokenValid(r)
-	if err != nil {
-		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
-		return
-	}
 	vars := mux.Vars(r)
 	uid, err := strconv.ParseUint(vars["id"], 10, 32)
 	if err != nil {

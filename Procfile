@@ -1,1 +1,1 @@
-web: bin/goauth
+web: go run main.go

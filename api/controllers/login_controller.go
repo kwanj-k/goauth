@@ -35,7 +35,8 @@ func (server *Server) Login(w http.ResponseWriter, r *http.Request) {
 	}
 	token, err := server.SignIn(user.Email, user.Password)
 	if err != nil {
-		formattedError := formaterror.FormatError(err.Error())
+		message :=  "Wrong email or password"
+		formattedError := formaterror.FormatError(message)
 		responses.ERROR(w, http.StatusNotFound, formattedError)
 		return
 	}

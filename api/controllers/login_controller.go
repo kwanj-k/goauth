@@ -8,12 +8,12 @@ import (
 	"github.com/kwanj-k/goauth/api/auth"
 	"github.com/kwanj-k/goauth/api/models"
 	"github.com/kwanj-k/goauth/api/responses"
-	"github.com/kwanj-k/goauth/api/utils/formaterror"
 	"golang.org/x/crypto/bcrypt"
 )
 
 // Login func that logins a user and return token
 func (server *Server) Login(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		responses.ERROR(w, http.StatusUnprocessableEntity, err)
@@ -29,17 +29,18 @@ func (server *Server) Login(w http.ResponseWriter, r *http.Request) {
 	user.Prepare()
 	err = user.Validate("login")
 	if err != nil {
-		responses.ERROR(w, http.StatusUnprocessableEntity, err)
+		responses.ERROR(w, http.StatusBadRequest, err)
 		return
 	}
 	token, err := server.SignIn(user.Email, user.Password)
 	if err != nil {
-		formattedError := formaterror.FormatError(err.Error())
-		responses.ERROR(w, http.StatusUnprocessableEntity, formattedError)
+		var resp = map[string]interface{}{"message": "Wrong email or password"}
+		responses.JSON(w, http.StatusBadRequest, resp)
 		return
 	}
 	var resp = map[string]interface{}{"status": "Success!"}
 	resp["token"] = token
+	resp["email"] = user.Email
 	responses.JSON(w, http.StatusOK, resp)
 }
 

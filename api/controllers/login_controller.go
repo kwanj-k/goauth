@@ -8,7 +8,6 @@ import (
 	"github.com/kwanj-k/goauth/api/auth"
 	"github.com/kwanj-k/goauth/api/models"
 	"github.com/kwanj-k/goauth/api/responses"
-	"github.com/kwanj-k/goauth/api/utils/formaterror"
 	"golang.org/x/crypto/bcrypt"
 )
 

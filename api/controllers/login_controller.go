@@ -35,7 +35,7 @@ func (server *Server) Login(w http.ResponseWriter, r *http.Request) {
 	token, err := server.SignIn(user.Email, user.Password)
 	if err != nil {
 		var resp = map[string]interface{}{"message": "Wrong email or password"}
-		responses.JSON(w, http.StatusBadGateway, resp)
+		responses.JSON(w, http.StatusBadRequest, resp)
 		return
 	}
 	var resp = map[string]interface{}{"status": "Success!"}

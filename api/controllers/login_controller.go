@@ -30,13 +30,13 @@ func (server *Server) Login(w http.ResponseWriter, r *http.Request) {
 	user.Prepare()
 	err = user.Validate("login")
 	if err != nil {
-		responses.ERROR(w, http.StatusUnprocessableEntity, err)
+		responses.ERROR(w, http.StatusBadRequest, err)
 		return
 	}
 	token, err := server.SignIn(user.Email, user.Password)
 	if err != nil {
 		formattedError := formaterror.FormatError(err.Error())
-		responses.ERROR(w, http.StatusUnprocessableEntity, formattedError)
+		responses.ERROR(w, http.StatusNotFound, formattedError)
 		return
 	}
 	var resp = map[string]interface{}{"status": "Success!"}

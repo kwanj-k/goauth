@@ -2,12 +2,14 @@ package controllers
 
 import (
 	"github.com/kwanj-k/goauth/api/middlewares"
+	"github.com/rs/cors"
 )
 
 func (s *Server) initializeRoutes() {
 
 	s.Router.StrictSlash(false)
 
+	s.Router.Use(cors.Default().Handler)		
 	// Home Route
 	s.Router.HandleFunc("/", middlewares.SetMiddlewareJSON(s.Home)).Methods("GET")
 

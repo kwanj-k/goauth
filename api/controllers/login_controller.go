@@ -14,10 +14,7 @@ import (
 
 // Login func that logins a user and return token
 func (server *Server) Login(w http.ResponseWriter, r *http.Request) {
-	//Allow CORS here By * or specific origin
-    w.Header().Set("Access-Control-Allow-Origin", "*")
-
-    w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Content-Type", "application/json")
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		responses.ERROR(w, http.StatusUnprocessableEntity, err)

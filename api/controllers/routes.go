@@ -4,6 +4,7 @@ import (
 	"github.com/kwanj-k/goauth/api/middlewares"
 )
 
+
 func (s *Server) initializeRoutes() {
 
 	s.Router.StrictSlash(false)

@@ -6,10 +6,13 @@ import (
 )
 
 func (s *Server) initializeRoutes() {
+	c := cors.New(cors.Options{
+		AllowedOrigins: []string{"*"},
+	})
 
 	s.Router.StrictSlash(false)
 
-	s.Router.Use(cors.Default().Handler)		
+	s.Router.Use(c.Handler)		
 	// Home Route
 	s.Router.HandleFunc("/", middlewares.SetMiddlewareJSON(s.Home)).Methods("GET")
 

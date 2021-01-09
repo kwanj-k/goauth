@@ -14,10 +14,12 @@ import (
 )
 
 // CreateToken func to generate a token with user info
-func CreateToken(userID uint32) (string, error) {
+func CreateToken(userID uint32, email string, username string) (string, error) {
 	claims := jwt.MapClaims{}
 	claims["authorized"] = true
 	claims["userID"] = userID
+	claims["email"] = email
+	claims["username"] = username
 	claims["exp"] = time.Now().Add(time.Hour * 1).Unix() //Token expires after 1 hour
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString([]byte(os.Getenv("API_SECRET")))
